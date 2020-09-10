@@ -80,6 +80,42 @@ What matters to you?
 **[⬆ back to top](#table-of-contents)**
 
 ### The Importance of Measurement
+
+Measure. Don’t tune for speed until you’ve measured, and even then don’t unless one part of the code overwhelms the rest. —Rob Pike
+
+Do not go just blindly applying performance optimizations.
+
+There is a cost to every abstraction —and everything has a trade off.
+
+I’m not a fan of premature optimization, but performance is one of those things where if we’re not keeping an eye on it, it has a chance of getting away from us.
+
+Some things to think about while measuring
+
+- Are we testing performance on fancy MacBook Pros or consumer-grade hardware?
+- Are we simulating less-than-perfect network conditions. 
+- What is our performance budget?
+
+Don’t get carried away with measuring, either.
+
+Thinking deeply about the architecture and design of your application is a better use of your time than micro-benchmarks.
+
+Three Tiers of Advice
+
+- Definitely do this.
+- Maybe do this, but measure before and after.
+- Only do this if you find a performance problem that needs solving.
+
+And now: Steve’s Golden Rule of Performance
+
+- Doing Less Stuff Takes Less Time.
+- If you can do it later. Do it later.
+
+Rough Outline
+
+- JavaScript performance: Write code that runs faster, later, or not at all.
+- Rendering performance: It turns out most of our JavaScript happens in the browser, which has its own performance concerns.
+- Load performance: Until the user actually gets the page, there isn’t much to optimize.
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **02. JavaScript Performance
