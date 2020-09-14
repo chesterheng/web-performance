@@ -229,6 +229,10 @@ micro-optimization (noun): Thing you read about one time and you know pester you
 **[⬆ back to top](#table-of-contents)**
 
 ### Reducing Parsing Times Exercise
+
+- And now: An exploration of why measuring is important.
+- Lab: [Test optimize-js](https://nolanlawson.github.io/test-optimize-js)
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Reducing Parsing Times Solution
@@ -265,8 +269,6 @@ micro-optimization (noun): Thing you read about one time and you know pester you
 **[⬆ back to top](#table-of-contents)**
 
 ### JavaScript Performance Takeaways
-**[⬆ back to top](#table-of-contents)**
-
 **[⬆ back to top](#table-of-contents)**
 
 ## **03. Rendering Performance**
