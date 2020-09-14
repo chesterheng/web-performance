@@ -9,12 +9,19 @@ obs.observe({ entryTypes: ['measure'] });
 
 // SETUP 🏁
 
-let iterations = 1e7;
+let iterations = 1000000;
 
-const a = 1;
-const b = 2;
+// const a = 1;
+// const b = 2;
 
-const add = (x, y) => x + y;
+// const add = (x, y) => x + y;
+
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
 
 // 🔚 SETUP
 
@@ -22,8 +29,14 @@ performance.mark('start');
 
 // EXERCISE 💪
 
+// %NeverOptimizeFunction(add);
+
 while (iterations--) {
-  add(a, b);
+  // add(a, b);
+  const point = new Point(2, 4);
+  delete point.x;
+
+  JSON.stringify(point);
 }
 
 // 🔚 EXERCISE

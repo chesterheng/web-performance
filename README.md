@@ -350,6 +350,204 @@ Chrome Results
 **[⬆ back to top](#table-of-contents)**
 
 ### Deoptimization, Deleting Properties
+
+```javascript
+performance.mark('start');
+
+while (iterations--) {
+  add(a, b);
+}
+
+// deoptimizing take place 
+// input parameter type change to string
+add('foo', 'bar');
+
+performance.mark('end');
+
+// node --trace-opt --trace-deopt benchmark.js | grep add
+
+// [marking 0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)> for optimized recompilation, reason: small function]
+// [compiling method 0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)> using TurboFan]
+// [optimizing 0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)> - took 0.469, 0.630, 0.010 ms]
+// [completed optimizing 0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)>]
+//      13: 0x369c1c1d2771 ; rcx 0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)>
+//     0x7ffeefbfeb30: [top +  56] <- 0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)> ;  stack parameter (input #13)
+// [deoptimizing (DEOPT eager): begin 0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)> (opt #0) @0, FP to SP delta: 24, caller sp: 0x7ffeefbfeb00]
+//   reading input frame add => bytecode_offset=0, args=3, height=0, retval=0(#0); inputs:
+//       0: 0x369c1c1d2771 ;  [fp -  16]  0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)>
+//   translating interpreted frame add => bytecode_offset=0, variable_frame_size=8, frame_size=80
+//     0x7ffeefbfeac8: [top +  24] <- 0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)> ;  function (input #0)
+// [deoptimizing (eager): end 0x369c1c1d2771 <JSFunction add (sfi = 0x369cf41cff51)> @0 => node=0, pc=0x0001008d69a0, caller sp=0x7ffeefbfeb00, took 0.307 ms]
+```
+
+```javascript
+performance.mark('start');
+
+while (iterations--) {
+  add(a, b);
+}
+
+iterations = 1e7;
+
+while (iterations--) {
+  add(a, b);
+}
+
+performance.mark('end');
+
+// node benchmark.js
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 39.5916,
+//   duration: 21.089114
+// }
+```
+
+```javascript
+performance.mark('start');
+
+while (iterations--) {
+  add(a, b);
+}
+
+// deoptimizing take place
+// duration double from 21 to 46 ms
+add('foo', 'bar');
+iterations = 1e7;
+
+while (iterations--) {
+  add(a, b);
+}
+
+performance.mark('end');
+
+// node benchmark.js
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 40.72167,
+//   duration: 46.01813
+// }
+```
+
+```javascript
+performance.mark('start');
+
+%NeverOptimizeFunction(add)
+
+while (iterations--) {
+  add(a, b);
+}
+
+performance.mark('end');
+
+// node --allow-natives-syntax benchmark.js
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 52.143221,
+//   duration: 187.299235
+// }
+```
+
+```javascript
+function add(x, y) {
+  return x + y;
+}
+
+add(1, 2);
+%OptimizeFunctionOnNextCall(add);
+add(3, 4);
+
+// node --allow-natives-syntax --trace-opt add.js
+
+// [manually marking 0x2fc021127049 <JSFunction add (sfi = 0x2fc04320fc11)> for non-concurrent optimization]
+// [compiling method 0x2fc021127049 <JSFunction add (sfi = 0x2fc04320fc11)> using TurboFan]
+// [optimizing 0x2fc021127049 <JSFunction add (sfi = 0x2fc04320fc11)> - took 0.553, 0.504, 0.023 ms]
+```
+
+We use a system called speculative optimization.
+
+![](img/speculative-optimization.jpg)
+
+How does this work?
+
+- We use an interpreter because the optimizing compiler is slow to get started.
+- Also: it needs some information before it knows what work it can either optimize or skip out on all together.
+- So, the interpreter starts gathering feedback about what it sees as the function is used.
+
+But what if a string slips in there?
+
+![](img/deoptimize.jpg)
+
+The optimizing compiler optimizes for what it’s seen. If it sees something new, that’s problematic.
+
+- add(1, 2) -> optimize -> add('foo', 'bar') -> deoptimize -> add(1, 2) -> optimize
+
+```javascript
+let iterations = 1000000;
+
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+performance.mark('start');
+
+while (iterations--) {
+  const point = new Point(2, 4);
+  JSON.stringify(point);
+}
+
+performance.mark('end');
+
+// node benchmark.js
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 42.295522,
+//   duration: 322.659674
+// }
+```
+
+```javascript
+let iterations = 1000000;
+
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+performance.mark('start');
+
+while (iterations--) {
+  const point = new Point(2, 4);
+  // delete point.x increase execution time to 3x
+  delete point.x;
+  JSON.stringify(point);
+}
+
+performance.mark('end');
+
+// node benchmark.js
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 40.996018,
+//   duration: 827.829081
+// }
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Deleting, Feeding Objects Exercise
