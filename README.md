@@ -224,18 +224,52 @@ micro-optimization (noun): Thing you read about one time and you know pester you
 
 “But, Steve! These little things add up!” — Me (pretending to be you), just now.
 
-[optimize-js](https://github.com/nolanlawson/optimize-js)
-
 **[⬆ back to top](#table-of-contents)**
 
 ### Reducing Parsing Times Exercise
 
 - And now: An exploration of why measuring is important.
 - Lab: [Test optimize-js](https://nolanlawson.github.io/test-optimize-js)
+- [optimize-js](https://github.com/nolanlawson/optimize-js)
+- [optimize-js-plugin](https://github.com/vigneshshanmugam/optimize-js-plugin)
+
+```javascript
+const doSomething = (a, b) => a + b;
+const start = performance.now();
+doSomething(1, 2);
+const end = performance.now();
+console.log(`Call to doSomething took ${end - start} ms.`);
+```
 
 **[⬆ back to top](#table-of-contents)**
 
 ### Reducing Parsing Times Solution
+
+Try to avoid nested functions
+
+```javascript
+function sumOfSquares(x, y) {
+  // 👇 This will repeatedly be parsed.
+  function square(n) {
+    return n * n;
+  }
+
+  return square(x) + square(y);
+}
+```
+
+Better...
+
+```javascript
+function square(n) {
+  return n * n;
+}
+
+function sumOfSquares(x, y) {
+  return square(x) + square(y);
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### ASTs and Initial Execution
