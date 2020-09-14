@@ -10,6 +10,21 @@
       - [What is performance?](#what-is-performance)
     - [The Importance of Measurement](#the-importance-of-measurement)
   - [**02. JavaScript Performance](#02-javascript-performance)
+    - [The Cost of JavaScript](#the-cost-of-javascript)
+    - [Parsing](#parsing)
+    - [Reducing Parsing Times Exercise](#reducing-parsing-times-exercise)
+    - [Reducing Parsing Times Solution](#reducing-parsing-times-solution)
+    - [ASTs and Initial Execution](#asts-and-initial-execution)
+    - [The Optimizing Compiler](#the-optimizing-compiler)
+    - [Deoptimization, Deleting Properties](#deoptimization-deleting-properties)
+    - [Deleting, Feeding Objects Exercise](#deleting-feeding-objects-exercise)
+    - [Deleting, Feeding Objects Solution](#deleting-feeding-objects-solution)
+    - [Monomorphism, Polymorphism, and Megamorphism](#monomorphism-polymorphism-and-megamorphism)
+    - [Optimizing Objects](#optimizing-objects)
+    - [Hidden Classes](#hidden-classes)
+    - [Scoping and Prototypes](#scoping-and-prototypes)
+    - [Function Inlining](#function-inlining)
+    - [JavaScript Performance Takeaways](#javascript-performance-takeaways)
   - [**03. Rendering Performance](#03-rendering-performance)
   - [**04. Load Performance](#04-load-performance)
   - [**05. Tools](#05-tools)
@@ -119,6 +134,52 @@ Rough Outline
 **[⬆ back to top](#table-of-contents)**
 
 ## **02. JavaScript Performance
+
+### The Cost of JavaScript
+**[⬆ back to top](#table-of-contents)**
+
+### Parsing
+**[⬆ back to top](#table-of-contents)**
+
+### Reducing Parsing Times Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### Reducing Parsing Times Solution
+**[⬆ back to top](#table-of-contents)**
+
+### ASTs and Initial Execution
+**[⬆ back to top](#table-of-contents)**
+
+### The Optimizing Compiler
+**[⬆ back to top](#table-of-contents)**
+
+### Deoptimization, Deleting Properties
+**[⬆ back to top](#table-of-contents)**
+
+### Deleting, Feeding Objects Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### Deleting, Feeding Objects Solution
+**[⬆ back to top](#table-of-contents)**
+
+### Monomorphism, Polymorphism, and Megamorphism
+**[⬆ back to top](#table-of-contents)**
+
+### Optimizing Objects
+**[⬆ back to top](#table-of-contents)**
+
+### Hidden Classes
+**[⬆ back to top](#table-of-contents)**
+
+### Scoping and Prototypes
+**[⬆ back to top](#table-of-contents)**
+
+### Function Inlining
+**[⬆ back to top](#table-of-contents)**
+
+### JavaScript Performance Takeaways
+**[⬆ back to top](#table-of-contents)**
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **03. Rendering Performance
