@@ -293,6 +293,60 @@ The baseline compiler takes the AST and starts to execute our code as we wrote i
 **[⬆ back to top](#table-of-contents)**
 
 ### The Optimizing Compiler
+
+Three things the engine does to help you out
+
+- Speculative optimization
+- Hidden classes for dynamic lookups 
+- Function inlining
+
+It turns out that JavaScript is hard.
+
+It also turns out that JavaScript is dynamic.
+
+But, what if we made some assumptions based on what we’ve seen in the past?
+
+Play Time
+
+- [Web Performance API](https://developer.mozilla.org/en-US/docs/Web/API/Performance_API)
+- [User Timing API](https://developer.mozilla.org/en-US/docs/Web/API/User_Timing_API)
+- [Node JS Performance hooks](https://nodejs.org/api/perf_hooks.html)
+
+```javascript
+// benchmarks/benchmark.js
+function add(a, b) {
+  return x + y;
+}
+```
+
+Play with Node JS
+
+```console
+node benchmark.js
+node --trace-opt benchmark.js
+node --trace-opt benchmark.js | grep add
+```
+
+Node JS Results
+
+```
+[marking 0x3a47fa172489 <JSFunction add (sfi = 0x3a474d28fed1)> for optimized recompilation, reason: small function]
+[compiling method 0x3a47fa172489 <JSFunction add (sfi = 0x3a474d28fed1)> using TurboFan]
+[optimizing 0x3a47fa172489 <JSFunction add (sfi = 0x3a474d28fed1)> - took 0.498, 0.765, 0.010 ms]
+[completed optimizing 0x3a47fa172489 <JSFunction add (sfi = 0x3a474d28fed1)>]
+```
+
+Play with Chrome
+
+- about:blank
+- Performance Tab: record
+- Paste benchmark.js code in console
+- Performance Tab: stop
+
+Chrome Results
+
+![](img/chrome-timings.jpg)
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Deoptimization, Deleting Properties
