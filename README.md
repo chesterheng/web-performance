@@ -9,7 +9,7 @@
       - [Why does performance matter?](#why-does-performance-matter)
       - [What is performance?](#what-is-performance)
     - [The Importance of Measurement](#the-importance-of-measurement)
-  - [**02. JavaScript Performance](#02-javascript-performance)
+  - [**02. JavaScript Performance**](#02-javascript-performance)
     - [The Cost of JavaScript](#the-cost-of-javascript)
     - [Parsing](#parsing)
     - [Reducing Parsing Times Exercise](#reducing-parsing-times-exercise)
@@ -25,10 +25,10 @@
     - [Scoping and Prototypes](#scoping-and-prototypes)
     - [Function Inlining](#function-inlining)
     - [JavaScript Performance Takeaways](#javascript-performance-takeaways)
-  - [**03. Rendering Performance](#03-rendering-performance)
-  - [**04. Load Performance](#04-load-performance)
-  - [**05. Tools](#05-tools)
-  - [**06. Wrapping Up](#06-wrapping-up)
+  - [**03. Rendering Performance**](#03-rendering-performance)
+  - [**04. Load Performance**](#04-load-performance)
+  - [**05. Tools**](#05-tools)
+  - [**06. Wrapping Up**](#06-wrapping-up)
 
 ## **01. Introduction**
 
@@ -133,7 +133,7 @@ Rough Outline
 
 **[⬆ back to top](#table-of-contents)**
 
-## **02. JavaScript Performance
+## **02. JavaScript Performance**
 
 ### The Cost of JavaScript
 
@@ -167,6 +167,65 @@ Let’s look at your code’s journey through V8 at a high level.
 **[⬆ back to top](#table-of-contents)**
 
 ### Parsing
+
+The source code is the true intention of the application, but the engine needs to figure out what this means.
+
+Parsing can be slow. As slow as 1MB/s on mobile.
+
+One way to reduce parsing time is to have less code to parse.
+
+Another way is to do as much parsing as you need and as little as you can get away with.
+
+Parsing happens in two phases
+
+- Eager (full parse): This is what you think of when you think about parsing.
+- Lazy (pre-parse): Do the bear minimum now. We’ll parse it for realsies later.
+
+Generally speaking, Lazy Parsing is a good thing.
+
+Doing less work is faster than doing work, right?
+
+The basic rules
+
+- Scan through the top-level scope. Parse all the code you see that’s actually doing something.
+- Skip things like function declarations and classes for now. We’ll parse them when we need them.
+
+This could bite you. But, how?
+
+```javascript
+// These will be eagerly-parsed.
+const a = 1;
+const b = 2;
+// Take note that there a function here,
+// but, we'll parse the body when we need it.
+function add(a, b) {
+  return a + b;
+}
+add(a, b);   // Whoa. Go back and parse add()!
+```
+
+Do you see the problem here?
+
+Corollary: Doing stuff twice is slower than doing it once.
+
+```javascript
+const a = 1;
+const b = 2;
+// Parse it now!
+(function add(a, b) {
+return a + b;
+});
+add(a, b);
+```
+
+It’s definitely helpful to know how this works, but...
+
+micro-optimization (noun): Thing you read about one time and you know pester your co-works about in code reviews, even though it has an almost unnoticeable impact at scale.
+
+“But, Steve! These little things add up!” — Me (pretending to be you), just now.
+
+[optimize-js](https://github.com/nolanlawson/optimize-js)
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Reducing Parsing Times Exercise
@@ -210,14 +269,14 @@ Let’s look at your code’s journey through V8 at a high level.
 
 **[⬆ back to top](#table-of-contents)**
 
-## **03. Rendering Performance
+## **03. Rendering Performance**
 **[⬆ back to top](#table-of-contents)**
 
-## **04. Load Performance
+## **04. Load Performance**
 **[⬆ back to top](#table-of-contents)**
 
-## **05. Tools
+## **05. Tools**
 **[⬆ back to top](#table-of-contents)**
 
-## **06. Wrapping Up
+## **06. Wrapping Up**
 **[⬆ back to top](#table-of-contents)**
