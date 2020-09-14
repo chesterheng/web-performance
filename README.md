@@ -136,6 +136,34 @@ Rough Outline
 ## **02. JavaScript Performance
 
 ### The Cost of JavaScript
+
+Problem: You literally can’t buy faster servers to improve performance of client-side applications.
+
+I mean, you could buy all of your customers faster computers, I guess.🤑
+
+A lot of time and energy is spent compressing assets, removing requests, and reducing latency, but what about once the application is running?
+
+[JavaScript Bytes](https://httparchive.org/reports/state-of-javascript#bytesJs)
+
+Sometimes, scripting (parsing and compiling) is the real culprit.
+
+Okay, so how does JavaScript even work?
+
+Fun fact: JavaScript is a compiled language.
+
+Most browsers use something called just-in-time (JIT) compilation.
+
+Things to know about JIT compilation
+
+- It means that there is compilation step.
+- It means that it happens moments before execution. 
+- That means it happens on our client’s machine.
+- That means they’re paying the cost and/or doing the hard work for us.
+
+Let’s look at your code’s journey through V8 at a high level.
+
+![](img/v8.jpg)
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Parsing
