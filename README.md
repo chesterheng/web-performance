@@ -273,6 +273,23 @@ function sumOfSquares(x, y) {
 **[⬆ back to top](#table-of-contents)**
 
 ### ASTs and Initial Execution
+
+Okay, cool—so it’s parsed. Now what?
+
+It’s turned into an abstract syntax tree.
+
+In computer science, an abstract syntax tree (AST) [...] is a tree representation of the abstract syntactic structure of source code written in a programming language. — Wikipedia
+
+Essential, we’ve gone from a big long string of text to an actual data structure representing our code.
+
+![](img/ast-add-function.jpg)
+
+With our AST, we now have everything we need to make byte code!
+
+The baseline compiler takes the AST and starts to execute our code as we wrote it.
+
+![](img/ast-bytecode.jpg)
+
 **[⬆ back to top](#table-of-contents)**
 
 ### The Optimizing Compiler
