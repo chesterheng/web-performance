@@ -512,26 +512,16 @@ performance.mark('end');
 // PerformanceEntry {
 //   name: 'My Special Benchmark',
 //   entryType: 'measure',
-//   startTime: 42.295522,
-//   duration: 322.659674
+//   startTime: 43.541689,
+//   duration: 350.737282
 // }
 ```
 
 ```javascript
-let iterations = 1000000;
-
-class Point {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
-
 performance.mark('start');
 
 while (iterations--) {
   const point = new Point(2, 4);
-  // delete point.x increase execution time to 3x
   delete point.x;
   JSON.stringify(point);
 }
@@ -543,17 +533,188 @@ performance.mark('end');
 // PerformanceEntry {
 //   name: 'My Special Benchmark',
 //   entryType: 'measure',
-//   startTime: 40.996018,
-//   duration: 827.829081
+//   startTime: 40.989665,
+//   duration: 734.314327
 // }
 ```
+
+```javascript
+performance.mark('start');
+
+while (iterations--) {
+  const point = new Point(2, 4);
+  delete point.y;
+  JSON.stringify(point);
+}
+
+performance.mark('end');
+
+// node benchmark.js
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 39.196188,
+//   duration: 355.132393
+// }
+```
+
+Conclusion: 
+- Delete point.x increase execution time to 3x
+- Delete point.y don't affect the execution time
 
 **[⬆ back to top](#table-of-contents)**
 
 ### Deleting, Feeding Objects Exercise
+
+```javascript
+let iterations = 1000000;
+
+class Point {
+  constructor(x, y, z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+  }
+}
+
+performance.mark('start');
+
+while (iterations--) {
+  const point = new Point(2, 4, 6);
+  delete point.x;
+  delete point.y;
+  delete point.z;
+
+  JSON.stringify(point);
+}
+
+performance.mark('end');
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Deleting, Feeding Objects Solution
+
+```javascript
+performance.mark('start');
+
+while (iterations--) {
+  const point = new Point(2, 4, 6);
+  delete point.x;
+
+  JSON.stringify(point);
+}
+
+performance.mark('end');
+
+// node benchmark.js 
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 47.241762,
+//   duration: 851.268479
+// }
+```
+
+```javascript
+performance.mark('start');
+
+while (iterations--) {
+  const point = new Point(2, 4, 6);
+  delete point.y;
+
+  JSON.stringify(point);
+}
+
+performance.mark('end');
+
+// node benchmark.js 
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 43.362006,
+//   duration: 971.586343
+// }
+```
+
+```javascript
+performance.mark('start');
+
+while (iterations--) {
+  const point = new Point(2, 4, 6);
+  delete point.z;
+
+  JSON.stringify(point);
+}
+
+performance.mark('end');
+
+// node benchmark.js 
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 42.095334,
+//   duration: 389.110982
+// }
+```
+
+Conclusion: 
+- Delete point.x and point.y increase execution time to 3x
+- Delete point.z don't affect the execution time
+- Delete last property don't affect the execution time
+
+```javascript
+let iterations = 1e7;
+const objects = [{ a: 1 }, { a: 2 }, { a: 3 }, { a: 4 }]
+
+performance.mark('start');
+
+while (iterations--) {
+  let sum = 0;
+  const obj = objects[iterations & 3];
+  sum = sum + obj.a;
+}
+
+performance.mark('end');
+
+// node benchmark.js 
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 43.635845,
+//   duration: 17.738028
+// }
+```
+
+```javascript
+let iterations = 1e7;
+const objects = [{ a: 1 }, { b: 1, a: 2 }, { a: 3, c: 4, b: 2 }, { a: 4, b: 7 }]
+
+performance.mark('start');
+
+while (iterations--) {
+  let sum = 0;
+  const obj = objects[iterations & 3];
+  sum = sum + obj.a;
+}
+
+performance.mark('end');
+
+// node benchmark.js 
+
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 41.509887,
+//   duration: 24.452353
+// }
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Monomorphism, Polymorphism, and Megamorphism

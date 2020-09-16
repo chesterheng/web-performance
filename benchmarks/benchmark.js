@@ -9,20 +9,22 @@ obs.observe({ entryTypes: ['measure'] });
 
 // SETUP 🏁
 
-let iterations = 1000000;
+let iterations = 1e7;
 
 // const a = 1;
 // const b = 2;
 
 // const add = (x, y) => x + y;
 
-class Point {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
+// class Point {
+//   constructor(x, y, z) {
+//     this.x = x;
+//     this.y = y;
+//     this.z = z;
+//   }
+// }
 
+const objects = [{ a: 1 }, { b: 1, a: 2 }, { a: 3, c: 4, b: 2 }, { a: 4, b: 7 }]
 // 🔚 SETUP
 
 performance.mark('start');
@@ -33,10 +35,15 @@ performance.mark('start');
 
 while (iterations--) {
   // add(a, b);
-  const point = new Point(2, 4);
-  delete point.x;
+  // const point = new Point(2, 4, 6);
+  // delete point.x;
+  // delete point.y;
+  // delete point.z;
 
-  JSON.stringify(point);
+  // JSON.stringify(point);
+  let sum = 0;
+  const obj = objects[iterations & 3];
+  sum = sum + obj.a;
 }
 
 // 🔚 EXERCISE
