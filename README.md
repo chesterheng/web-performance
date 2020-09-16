@@ -954,6 +954,171 @@ Takeaways
 **[⬆ back to top](#table-of-contents)**
 
 ### Function Inlining
+
+Inline function
+```javascript
+const square = x => x * x;
+const sumOfSquare = (a, b) => square(a) + square(b);
+```
+
+```javascript
+let iterations = 100000;
+
+const square = x => x * x;
+const sumOfSquare = (a, b) => square(a) + square(b);
+
+performance.mark('start');
+
+while (iterations--) {
+  sumOfSquare(iterations, iterations + 1);
+}
+
+performance.mark('end');
+
+// node benchmark.js 
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 47.126163,
+//   duration: 4.538562
+// }
+```
+
+```javascript
+let iterations = 100000;
+
+const square = x => x * x;
+const sumOfSquare = (a, b) => a * a + b * b;
+
+performance.mark('start');
+
+while (iterations--) {
+  sumOfSquare(iterations, iterations + 1);
+}
+
+performance.mark('end');
+
+// node benchmark.js 
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 42.331587,
+//   duration: 3.977038
+// }
+```
+
+```javascript
+let iterations = 100000;
+
+const square = x => x * x;
+const sumOfSquare = (a, b) => square(a) + square(b);
+
+performance.mark('start');
+
+while (iterations--) {
+  sumOfSquare(iterations, iterations + 1);
+}
+
+performance.mark('end');
+
+// node --trace-turbo-inlining benchmark.js 
+// 0x31ea001cff01 <SharedFunctionInfo square>: IsInlineable? true
+// Inlining small function(s) at call site #29:JSCall
+// Inlining 0x1040421b0 {0x31ea001cff01 <SharedFunctionInfo square>} into 0x10402b878 {0x31ea001cff51 <SharedFunctionInfo sumOfSquare>}
+// 0x31ea001cff01 <SharedFunctionInfo square>: IsInlineable? true
+// Inlining small function(s) at call site #43:JSCall
+// Inlining 0x1040421b0 {0x31ea001cff01 <SharedFunctionInfo square>} into 0x10402b878 {0x31ea001cff51 <SharedFunctionInfo sumOfSquare>}
+// 0x31eafcf49489 <SharedFunctionInfo Array>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4a369 <SharedFunctionInfo Boolean>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf51f01 <SharedFunctionInfo BigInt>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf49f91 <SharedFunctionInfo Number>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf483e1 <SharedFunctionInfo Object>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4c539 <SharedFunctionInfo Promise>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4c6f9 <SharedFunctionInfo then>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4a411 <SharedFunctionInfo String>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4b2f1 <SharedFunctionInfo Symbol>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4c921 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4c809 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4c7d1 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4c8e9 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4c9c9 <SharedFunctionInfo exec>: IsInlineable? false (no Script associated with it)
+// 0x31ea001cff01 <SharedFunctionInfo square>: IsInlineable? true
+// 0x31ea001cff51 <SharedFunctionInfo sumOfSquare>: IsInlineable? true
+// 0x31ea001cff51 <SharedFunctionInfo sumOfSquare>: IsInlineable? true
+// Inlining small function(s) at call site #54:JSCall
+// Inlining 0x10481ceb8 {0x31ea001cff51 <SharedFunctionInfo sumOfSquare>} into 0x104814890 {0x31ea001cfde9 <SharedFunctionInfo>}
+// 0x31ea001cff01 <SharedFunctionInfo square>: IsInlineable? true
+// Inlining small function(s) at call site #91:JSCall
+// Inlining 0x10481ea00 {0x31ea001cff01 <SharedFunctionInfo square>} into 0x104814890 {0x31ea001cfde9 <SharedFunctionInfo>}
+// 0x31ea001cff01 <SharedFunctionInfo square>: IsInlineable? true
+// Inlining small function(s) at call site #105:JSCall
+// Inlining 0x10481ea00 {0x31ea001cff01 <SharedFunctionInfo square>} into 0x104814890 {0x31ea001cfde9 <SharedFunctionInfo>}
+// 0x31eafcf49489 <SharedFunctionInfo Array>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4a369 <SharedFunctionInfo Boolean>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf51f01 <SharedFunctionInfo BigInt>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf49f91 <SharedFunctionInfo Number>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf483e1 <SharedFunctionInfo Object>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4c539 <SharedFunctionInfo Promise>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4c6f9 <SharedFunctionInfo then>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4a411 <SharedFunctionInfo String>: IsInlineable? false (no Script associated with it)
+// 0x31eafcf4b2f1 <SharedFunctionInfo Symbol>: IsInlineable? false (no Script associated with it)
+// (base) Chesters-MacBook-Pro:benchmarks chesterheng$ node --trace-turbo-inlining benchmark.js 
+// 0x3372a2bcff01 <SharedFunctionInfo square>: IsInlineable? true
+// Inlining small function(s) at call site #29:JSCall
+// Inlining 0x1048599b0 {0x3372a2bcff01 <SharedFunctionInfo square>} into 0x10484b678 {0x3372a2bcff51 <SharedFunctionInfo sumOfSquare>}
+// 0x3372a2bcff01 <SharedFunctionInfo square>: IsInlineable? true
+// Inlining small function(s) at call site #43:JSCall
+// Inlining 0x1048599b0 {0x3372a2bcff01 <SharedFunctionInfo square>} into 0x10484b678 {0x3372a2bcff51 <SharedFunctionInfo sumOfSquare>}
+// 0x337265a09489 <SharedFunctionInfo Array>: IsInlineable? false (no Script associated with it)
+// 0x337265a0a369 <SharedFunctionInfo Boolean>: IsInlineable? false (no Script associated with it)
+// 0x337265a11f01 <SharedFunctionInfo BigInt>: IsInlineable? false (no Script associated with it)
+// 0x337265a09f91 <SharedFunctionInfo Number>: IsInlineable? false (no Script associated with it)
+// 0x337265a083e1 <SharedFunctionInfo Object>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c539 <SharedFunctionInfo Promise>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c6f9 <SharedFunctionInfo then>: IsInlineable? false (no Script associated with it)
+// 0x337265a0a411 <SharedFunctionInfo String>: IsInlineable? false (no Script associated with it)
+// 0x337265a0b2f1 <SharedFunctionInfo Symbol>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c921 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c809 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c7d1 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c8e9 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c9c9 <SharedFunctionInfo exec>: IsInlineable? false (no Script associated with it)
+// 0x3372a2bcff01 <SharedFunctionInfo square>: IsInlineable? true
+// 0x3372a2bcff51 <SharedFunctionInfo sumOfSquare>: IsInlineable? true
+// 0x3372a2bcff51 <SharedFunctionInfo sumOfSquare>: IsInlineable? true
+// Inlining small function(s) at call site #54:JSCall
+// Inlining 0x10485b6b8 {0x3372a2bcff51 <SharedFunctionInfo sumOfSquare>} into 0x10484b690 {0x3372a2bcfde9 <SharedFunctionInfo>}
+// 0x3372a2bcff01 <SharedFunctionInfo square>: IsInlineable? true
+// Inlining small function(s) at call site #91:JSCall
+// Inlining 0x10485d200 {0x3372a2bcff01 <SharedFunctionInfo square>} into 0x10484b690 {0x3372a2bcfde9 <SharedFunctionInfo>}
+// 0x3372a2bcff01 <SharedFunctionInfo square>: IsInlineable? true
+// Inlining small function(s) at call site #105:JSCall
+// Inlining 0x10485d200 {0x3372a2bcff01 <SharedFunctionInfo square>} into 0x10484b690 {0x3372a2bcfde9 <SharedFunctionInfo>}
+// 0x337265a09489 <SharedFunctionInfo Array>: IsInlineable? false (no Script associated with it)
+// 0x337265a0a369 <SharedFunctionInfo Boolean>: IsInlineable? false (no Script associated with it)
+// 0x337265a11f01 <SharedFunctionInfo BigInt>: IsInlineable? false (no Script associated with it)
+// 0x337265a09f91 <SharedFunctionInfo Number>: IsInlineable? false (no Script associated with it)
+// 0x337265a083e1 <SharedFunctionInfo Object>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c539 <SharedFunctionInfo Promise>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c6f9 <SharedFunctionInfo then>: IsInlineable? false (no Script associated with it)
+// 0x337265a0a411 <SharedFunctionInfo String>: IsInlineable? false (no Script associated with it)
+// 0x337265a0b2f1 <SharedFunctionInfo Symbol>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c921 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c809 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c7d1 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c8e9 <SharedFunctionInfo>: IsInlineable? false (no Script associated with it)
+// 0x337265a0c9c9 <SharedFunctionInfo exec>: IsInlineable? false (no Script associated with it)
+// 0x3372a2bcff01 <SharedFunctionInfo square>: IsInlineable? true
+// 0x3372a2bcfde9 <SharedFunctionInfo>: IsInlineable? true
+// 0x3372a2bcff51 <SharedFunctionInfo sumOfSquare>: IsInlineable? true
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 50.797892,
+//   duration: 9.871933
+// }
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### JavaScript Performance Takeaways

@@ -11,18 +11,21 @@ obs.observe({ entryTypes: ['measure'] });
 
 let iterations = 100000;
 
-class Point {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
+const square = x => x * x;
+const sumOfSquare = (a, b) => square(a) + square(b);
 
-const test = () => {
-  const add = point => point.x + point.y;
-  const point = new Point(10, 20);
-  add(point);
-};
+// class Point {
+//   constructor(x, y) {
+//     this.x = x;
+//     this.y = y;
+//   }
+// }
+
+// const test = () => {
+//   const add = point => point.x + point.y;
+//   const point = new Point(10, 20);
+//   add(point);
+// };
 // const a = 1;
 // const b = 2;
 
@@ -56,7 +59,8 @@ while (iterations--) {
   // let sum = 0;
   // const obj = objects[iterations & 3];
   // sum = sum + obj.a;
-  test();
+  // test();
+  sumOfSquare(iterations, iterations + 1)
 }
 
 // 🔚 EXERCISE
