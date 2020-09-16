@@ -50,6 +50,9 @@
 
 ## **01. Introduction**
 
+[Web Performance Slides](https://speakerdeck.com/stevekinney/web-performance)
+[Course Notes and Materials](https://gist.github.com/stevekinney/fe401ffb8b2b7279e56dd165b272f0c3)
+
 ### Thinking About Performance
 
 #### Why does performance matter?
@@ -1449,17 +1452,53 @@ button.addEventListener('click', (event) => {
 ```
 
 Conclusion: 
-- Do not get one width and adjust one width and repeat
-- Apply batch DOM manipulation
-- Get all widths first then adjust all widths reduce layout and reflow time to half
+
 - Layout and painting is the most expensive operations
-- Do it in batch one time and do not keep repeating it
+- Do not get one width and adjust one width (layout) and repeat
+  - Result in browswer recalculate style -> layout -> recalculate style -> layout -> repeat
+  - Result in Layout Thrashing
+- Apply batch DOM manipulation
+  - Get all widths first then adjust all widths (layout)
+  - Layout only once and time is redux by half
 
 **[⬆ back to top](#table-of-contents)**
 
 ### Layout Thrashing
 
+![](img/layoutthrashing.png)
 
+Less cool names: Forced synchronous layout.
+
+There are a set of things you can do that cause the browser to stop what it’s doing and calculate style and layout.
+
+![](img/layout-thrashing.jpg)
+
+Layout Thrashing occurs when JavaScript violently writes, then reads, from the DOM, multiple times causing document reflows. —Winston Page
+
+`const height = element.offsetHeight;`
+
+The browser wants to get you the most up to date answer, so it goes and does a style and layout check.
+
+```javascript
+// recalculate style -> layout -> repeat
+firstElement.classList.toggle('bigger');  // Change!
+const firstElementWidth = firstElement.width;  // Calculate
+secondElement.classList.toggle('bigger');  // Change!
+const secondElementWidth = secondElement.width;  // Calculate
+```
+
+- The browser knew it was going to have to change stuff after that first line.
+- Then you went ahead and asked it for some information about the geometry of another object.
+- So, it stopped your JavaScript and reflowed the page in order to get you an answer.
+
+Solution: Separate reading from writing.
+
+```javascript
+firstElement.classList.toggle('bigger');  // Change!
+secondElement.classList.toggle('bigger');  // Change!
+const firstElementWidth = firstElement.width;  // Calculate
+const secondElementWidth = secondElement.width; // 🏖
+```
 
 **[⬆ back to top](#table-of-contents)**
 
