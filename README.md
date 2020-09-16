@@ -1550,6 +1550,42 @@ registerNextClick(function (timestamp) {
 **[⬆ back to top](#table-of-contents)**
 
 ### FastDOM
+
+It sounds like we could use a better abstraction, right?
+
+[fastdom](https://github.com/wilsonpage/fastdom)
+
+```javascript
+fastdom.measure(()  => {
+  console.log('measure');
+});
+fastdom.mutate(()  => {
+  console.log('mutate');
+});
+fastdom.measure(()  => {
+  console.log('measure');
+});
+fastdom.mutate(()  => {
+  console.log('mutate');
+});
+```
+
+![](img/fast-dom.jpg)
+
+```javascript
+registerNextClick(function (timestamp) {
+  elements.forEach((element, index) => {
+    fastdom.measure(()  => {
+      const top = element.offsetTop;
+      const nextPosition = +((Math.sin(top + timestamp/1000) + 1) / 2 * containerWidth);
+      fastdom.mutate(() => {
+        element.style.transform = `translateX(${nextPosition}px)`;
+      })
+    });
+  });
+});
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### FastDOM Exercise
