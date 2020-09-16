@@ -26,6 +26,24 @@
     - [Function Inlining](#function-inlining)
     - [JavaScript Performance Takeaways](#javascript-performance-takeaways)
   - [**03. Rendering Performance**](#03-rendering-performance)
+    - [How Web Pages Are Built](#how-web-pages-are-built)
+    - [JavaScript and the Render Pipeline](#javascript-and-the-render-pipeline)
+    - [Layouts and Reflows](#layouts-and-reflows)
+    - [Layouts and Reflows Exercise](#layouts-and-reflows-exercise)
+    - [Layouts and Reflows Solution](#layouts-and-reflows-solution)
+    - [Layout Thrashing](#layout-thrashing)
+    - [Solving for Layout Trashing](#solving-for-layout-trashing)
+    - [FastDOM](#fastdom)
+    - [FastDOM Exercise](#fastdom-exercise)
+    - [FastDOM Solution](#fastdom-solution)
+    - [Frameworks and Layout Thrashing](#frameworks-and-layout-thrashing)
+    - [Painting](#painting)
+    - [The Compositor Thread](#the-compositor-thread)
+    - [Managing Layers](#managing-layers)
+    - [will-change](#will-change)
+    - [Applying will-change with JavaScript](#applying-will-change-with-javascript)
+    - [will-change Exercise](#will-change-exercise)
+    - [will-change Solution](#will-change-solution)
   - [**04. Load Performance**](#04-load-performance)
   - [**05. Tools**](#05-tools)
   - [**06. Wrapping Up**](#06-wrapping-up)
@@ -1130,6 +1148,59 @@ performance.mark('end');
 **[⬆ back to top](#table-of-contents)**
 
 ## **03. Rendering Performance**
+
+### How Web Pages Are Built
+**[⬆ back to top](#table-of-contents)**
+
+### JavaScript and the Render Pipeline
+**[⬆ back to top](#table-of-contents)**
+
+### Layouts and Reflows
+**[⬆ back to top](#table-of-contents)**
+
+### Layouts and Reflows Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### Layouts and Reflows Solution
+**[⬆ back to top](#table-of-contents)**
+
+### Layout Thrashing
+**[⬆ back to top](#table-of-contents)**
+
+### Solving for Layout Trashing
+**[⬆ back to top](#table-of-contents)**
+
+### FastDOM
+**[⬆ back to top](#table-of-contents)**
+
+### FastDOM Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### FastDOM Solution
+**[⬆ back to top](#table-of-contents)**
+
+### Frameworks and Layout Thrashing
+**[⬆ back to top](#table-of-contents)**
+
+### Painting
+**[⬆ back to top](#table-of-contents)**
+
+### The Compositor Thread
+**[⬆ back to top](#table-of-contents)**
+
+### Managing Layers
+**[⬆ back to top](#table-of-contents)**
+
+### will-change
+**[⬆ back to top](#table-of-contents)**
+
+### Applying will-change with JavaScript
+**[⬆ back to top](#table-of-contents)**
+
+### will-change Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### will-change Solution
 **[⬆ back to top](#table-of-contents)**
 
 ## **04. Load Performance**
