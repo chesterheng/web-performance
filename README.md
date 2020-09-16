@@ -1503,6 +1503,50 @@ const secondElementWidth = secondElement.width; // 🏖
 **[⬆ back to top](#table-of-contents)**
 
 ### Solving for Layout Trashing
+
+![](img/trashing-layputs-1.jpg)
+
+```javascript
+registerNextClick(function (timestamp) {
+  elements.forEach((element, index) => {
+    const top = element.offsetTop;
+    const nextPosition = +((Math.sin(top + timestamp/1000) + 1) / 2 * containerWidth);
+    element.style.transform = `translateX(${nextPosition}px)`;
+  });
+});
+```
+
+![](img/trashing-layouts-2.jpg)
+
+```javascript
+registerNextClick(function (timestamp) {
+  const nextPositions = elements.map(element => {
+    const top = element.offsetTop;
+    const nextPosition = +((Math.sin(top + timestamp/1000) + 1) / 2 * containerWidth);
+    return nextPosition;
+  })
+  
+  elements.forEach((element, index) => {
+    const nextPosition = nextPositions[index];
+    element.style.transform = `translateX(${nextPosition}px)`;
+  });
+});
+```
+
+![](img/trashing-layouts-3.jpg)
+
+```javascript
+registerNextClick(function (timestamp) {
+  elements.forEach((element, index) => {
+    const top = element.offsetTop;
+    const nextPosition = +((Math.sin(top + timestamp/1000) + 1) / 2 * containerWidth);
+    requestAnimationFrame(() => {
+      element.style.transform = `translateX(${nextPosition}px)`;
+    })
+  });
+});
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### FastDOM
