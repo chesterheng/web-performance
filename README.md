@@ -667,6 +667,10 @@ Conclusion:
 - Delete point.z don't affect the execution time
 - Delete last property don't affect the execution time
 
+**[⬆ back to top](#table-of-contents)**
+
+### Monomorphism, Polymorphism, and Megamorphism
+
 ```javascript
 let iterations = 1e7;
 const objects = [{ a: 1 }, { a: 2 }, { a: 3 }, { a: 4 }]
@@ -715,9 +719,50 @@ performance.mark('end');
 // }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+Conclusion
 
-### Monomorphism, Polymorphism, and Megamorphism
+- 40% increase in execution time when change from monomorphic to polymorphic, degree 3
+```javascript
+// monomorphic
+const objects = [{ a: 1 }, { a: 2 }, { a: 3 }, { a: 4 }]
+// polymorphic, degree 3
+const objects = [{ a: 1 }, { b: 1, a: 2 }, { a: 3, c: 4, b: 2 }, { a: 4, b: 7 }]
+```
+
+*–morphism.
+
+- Monomorphic: This is all I know and all that I’ve seen. I can get incredibly fast at this one thing.
+- Polymorphic: I’ve seen a few shapes before. Let me just check to see which one and then I’ll go do the fast thing.
+- Megamorphic: I’ve seen things. A lot of things. I’m not particularly specialized. Sorry.
+
+So, how does the browser figure out what type something is?
+
+- [JavaScript engine fundamentals: Shapes and Inline Caches](https://mathiasbynens.be/notes/shapes-ics)
+- [What's up with monomorphism?](https://mrale.ph/blog/2015/01/11/whats-up-with-monomorphism.html)
+- [V8 function optimization](https://erdem.pl/2019/08/v-8-function-optimization)
+- [A Tour of Inline Caching with Delete](https://webkit.org/blog/10298/inline-caching-delete/)
+
+![](img/monomorphic.jpg)
+![](img/polymorphic-2.jpg)
+![](img/polymorphic-3.jpg)
+![](img/polymorphic-4.jpg)
+![](img/megamorphic.jpg)
+
+```javascript
+const obj1 = { x: 1 };  // monomorphic
+const obj2 = { x: 2 };  // monomorphic
+const obj3 = { x: 3 };  // monomorphic
+const obj4 = { x: 3, y: 1 }; // polymorphic, degree 2
+const obj5 = { x: 4, y: 1 }; // polymorphic, degree 2
+const obj6 = { x: 5, z: 1 }; // polymorphic, degree 3
+const obj7 = { x: 6, a: 1 }; // polymorphic, degree 4
+const obj8 = { x: 7, b: 1 }; // megamorphic
+```
+
+Conclusion
+
+- keep object shape to monomorphic [mono- ("one") + -morphic ("of a form")]
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Optimizing Objects
