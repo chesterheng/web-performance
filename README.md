@@ -1122,6 +1122,11 @@ performance.mark('end');
 **[⬆ back to top](#table-of-contents)**
 
 ### JavaScript Performance Takeaways
+
+- The easiest way to reduce parse, compile, and execution times is to ship less code.
+- Use the User Timing API to figure out where the biggest amount of hurt is.
+- Consider using a type system so that you don’t have to think about all of the stuff I just talked about.
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **03. Rendering Performance**
