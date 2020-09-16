@@ -1557,16 +1557,10 @@ It sounds like we could use a better abstraction, right?
 
 ```javascript
 fastdom.measure(()  => {
-  console.log('measure');
-});
-fastdom.mutate(()  => {
-  console.log('mutate');
-});
-fastdom.measure(()  => {
-  console.log('measure');
-});
-fastdom.mutate(()  => {
-  console.log('mutate');
+  // read data
+  fastdom.mutate(()  => {
+    // update layout
+  });
 });
 ```
 
@@ -1589,9 +1583,48 @@ registerNextClick(function (timestamp) {
 **[⬆ back to top](#table-of-contents)**
 
 ### FastDOM Exercise
+
+https://codepen.io/stevekinney/full/eVadLB
+
 **[⬆ back to top](#table-of-contents)**
 
 ### FastDOM Solution
+
+![](img/reflow-1.jpg)
+
+```javascript
+const button = document.getElementById('double-sizes');
+const boxes = Array.from(document.querySelectorAll('.box'));
+
+const doubleWidth = element => {
+  // check each width and adjust width
+  const width = element.offsetWidth;
+  element.style.width = `${width * 2}px`;
+}
+
+button.addEventListener('click', (event) => {
+  boxes.forEach(doubleWidth);
+});
+```
+
+![](img/fast-dom-2.jpg)
+
+```javascript
+const button = document.getElementById('double-sizes');
+const boxes = Array.from(document.querySelectorAll('.box'));
+
+button.addEventListener('click', (event) => {
+  boxes.forEach((element, index) => {
+    fastdom.measure(() => {
+      const width = element.offsetWidth;
+      fastdom.mutate(() => {
+        element.style.width = `${width * 2}px`;
+      })
+    });
+  })
+});
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Frameworks and Layout Thrashing
