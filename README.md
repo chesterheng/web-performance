@@ -1150,6 +1150,69 @@ performance.mark('end');
 ## **03. Rendering Performance**
 
 ### How Web Pages Are Built
+
+![](img/web-1.jpg)
+![](img/web-2.jpg)
+![](img/web-3.jpg)
+![](img/web-4.jpg)
+![](img/web-5.jpg)
+![](img/web-6.jpg)
+![](img/web-7.jpg)
+
+The Render Tree
+
+- The Render Tree has a one-to-one mapping with the visible objects on the page.
+  - So, not hidden object.
+  - Yes, to pseudo elements (e.g. :after, :before).
+- There might be multiple rules that apply to a single element. We need to figure that all out here.
+
+Style calculation: The browser figures out all of the styles that will be applied to a given element.
+
+This involves two things:
+
+- Figuring out which rules apply to which elements.
+- Figuring out how what the end result of an element with multiple rules is.
+
+Styling Elements: Selector Matching
+
+- This is the process of figuring out what styles apply to an element.
+- The more complicated you get, the longer this takes.
+![](img/complex-style.jpg)
+- Class names are super simple.
+- Free Advice: Stick to simple class names whenever possible. Consider using BEM.
+- Browsers read selectors from right to left.
+- The less selectors you use, this faster this is going to be.
+
+Takeaways
+
+- Use simple selectors whenever possible.
+  - Consider using BEM or some other system.
+- Reduce the effected elements.
+  - This is really a way to get to the first one.
+  - A little bit of code—either on the server or the client— can go a long way.
+
+Styling Elements: Calculating Render Styles
+
+- Selector matching tries to figure out what selectors apply to an element.
+- When multiple selectors apply to an element. The browser needs to figure out who wins.
+- The easiest way to make this faster is to not do it.
+- Free Advice (again): Stick to simple class names whenever possible. Consider using BEM.
+- A quick note on style invalidation: It doesn’t matter as much in newer browsers.
+
+Some Takeaways
+
+- Reduce the number of styles that effect a given element.
+- The less styles you have, the less there is to check.
+- Reduce the amount of unused CSS that you’re shipping.
+
+Layout (a.k.a Reflow): Look at the elements and figure out where they go on the page.
+
+Paint: We know what things should look like and where they should go. Draw some pixels to the screen.
+
+Composite Layers: You might end up painting on multiple layers, but you’ll eventually need to combine them.
+
+Profit. 💸
+
 **[⬆ back to top](#table-of-contents)**
 
 ### JavaScript and the Render Pipeline
