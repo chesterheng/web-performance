@@ -1246,9 +1246,51 @@ Reminder: Steve’s golden rule of performance.
 **[⬆ back to top](#table-of-contents)**
 
 ### Layouts and Reflows
+
+Reflows are very expensive in terms of performance, and is one of the main causes of slow DOM scripts, especially on devices with low processing power, such as phones. In many cases, they are equivalent to laying out the entire page again. —Opera
+
+Whenever the geometry of an element changes, the browser has to reflow the page.
+
+Browser implementations have different ways of optimizing this, so there is no point sweating the details in this case.
+
+Tasting Notes
+
+- A reflow is a blocking operation. Everything else stops. 
+- It consumes a decent amount of CPU.
+- It will definitely be noticeable by the user if it happens often (e.g. in a loop).
+
+A reflow of an element causes a reflow of its parents and children.
+
+Okay, so what causes a reflow?
+
+- Resizing the window
+- Changing the font
+- Content changes
+- Adding or removing a stylesheet
+- Adding or removing classes 
+- Adding or removing elements 
+- Changing orientation 
+- Calculating size or position
+- Changing size or position
+- Even more...
+
+Generally speaking, a reflow is followed by a repaint, which is also expensive.
+
+How can you avoid reflows?
+
+- Change classes at the lowest levels of the DOM tree.
+- Avoid repeatedly modifying inline styles.
+- Trade smoothness for speed if you’re doing an animation in JavaScript. 
+- Avoid table layouts.
+- Batch DOM manipulation.
+- Debounce window resize events.
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Layouts and Reflows Exercise
+
+https://codepen.io/stevekinney/full/eVadLB/
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Layouts and Reflows Solution
