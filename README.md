@@ -1291,12 +1291,176 @@ How can you avoid reflows?
 
 https://codepen.io/stevekinney/full/eVadLB/
 
+```html
+<button id="double-sizes">Double Sizes</button>
+
+<section id="boxes">
+  <div class="box" style="width: 20px;"></div>
+  <div class="box" style="width: 5px;"></div>
+  <div class="box" style="width: 16px;"></div>
+  <div class="box" style="width: 5px;"></div>
+  <div class="box" style="width: 4px;"></div>
+  <div class="box" style="width: 7px;"></div>
+  <div class="box" style="width: 7px;"></div>
+  <div class="box" style="width: 7px;"></div>
+  <div class="box" style="width: 11px;"></div>
+  <div class="box" style="width: 15px;"></div>
+  <div class="box" style="width: 4px;"></div>
+  <div class="box" style="width: 13px;"></div>
+  <div class="box" style="width: 4px;"></div>
+  <div class="box" style="width: 25px;"></div>
+  <div class="box" style="width: 11px;"></div>
+  <div class="box" style="width: 15px;"></div>
+  <div class="box" style="width: 6px;"></div>
+  <div class="box" style="width: 20px;"></div>
+  <div class="box" style="width: 1px;"></div>
+  <div class="box" style="width: 3px;"></div>
+  <div class="box" style="width: 10px;"></div>
+  <div class="box" style="width: 12px;"></div>
+  <div class="box" style="width: 11px;"></div>
+  <div class="box" style="width: 24px;"></div>
+  <div class="box" style="width: 3px;"></div>
+  <div class="box" style="width: 6px;"></div>
+  <div class="box" style="width: 25px;"></div>
+  <div class="box" style="width: 23px;"></div>
+  <div class="box" style="width: 18px;"></div>
+  <div class="box" style="width: 3px;"></div>
+  <div class="box" style="width: 23px;"></div>
+  <div class="box" style="width: 16px;"></div>
+  <div class="box" style="width: 10px;"></div>
+  <div class="box" style="width: 5px;"></div>
+  <div class="box" style="width: 14px;"></div>
+  <div class="box" style="width: 15px;"></div>
+  <div class="box" style="width: 25px;"></div>
+  <div class="box" style="width: 21px;"></div>
+  <div class="box" style="width: 1px;"></div>
+  <div class="box" style="width: 6px;"></div>
+  <div class="box" style="width: 12px;"></div>
+  <div class="box" style="width: 1px;"></div>
+  <div class="box" style="width: 9px;"></div>
+  <div class="box" style="width: 18px;"></div>
+  <div class="box" style="width: 3px;"></div>
+  <div class="box" style="width: 17px;"></div>
+  <div class="box" style="width: 13px;"></div>
+  <div class="box" style="width: 22px;"></div>
+  <div class="box" style="width: 2px;"></div>
+  <div class="box" style="width: 18px;"></div>
+  <div class="box" style="width: 13px;"></div>
+  <div class="box" style="width: 1px;"></div>
+  <div class="box" style="width: 4px;"></div>
+  <div class="box" style="width: 0px;"></div>
+  <div class="box" style="width: 18px;"></div>
+  <div class="box" style="width: 14px;"></div>
+  <div class="box" style="width: 22px;"></div>
+  <div class="box" style="width: 19px;"></div>
+  <div class="box" style="width: 20px;"></div>
+  <div class="box" style="width: 13px;"></div>
+  <div class="box" style="width: 18px;"></div>
+  <div class="box" style="width: 17px;"></div>
+  <div class="box" style="width: 23px;"></div>
+  <div class="box" style="width: 2px;"></div>
+  <div class="box" style="width: 2px;"></div>
+  <div class="box" style="width: 9px;"></div>
+  <div class="box" style="width: 15px;"></div>
+  <div class="box" style="width: 18px;"></div>
+  <div class="box" style="width: 1px;"></div>
+  <div class="box" style="width: 3px;"></div>
+  <div class="box" style="width: 14px;"></div>
+  <div class="box" style="width: 23px;"></div>
+  <div class="box" style="width: 13px;"></div>
+  <div class="box" style="width: 20px;"></div>
+  <div class="box" style="width: 25px;"></div>
+  <div class="box" style="width: 2px;"></div>
+  <div class="box" style="width: 1px;"></div>
+  <div class="box" style="width: 11px;"></div>
+  <div class="box" style="width: 7px;"></div>
+  <div class="box" style="width: 16px;"></div>
+  <div class="box" style="width: 9px;"></div>
+  <div class="box" style="width: 12px;"></div>
+  <div class="box" style="width: 15px;"></div>
+  <div class="box" style="width: 15px;"></div>
+  <div class="box" style="width: 6px;"></div>
+  <div class="box" style="width: 4px;"></div>
+  <div class="box" style="width: 1px;"></div>
+  <div class="box" style="width: 11px;"></div>
+  <div class="box" style="width: 5px;"></div>
+  <div class="box" style="width: 16px;"></div>
+  <div class="box" style="width: 0px;"></div>
+  <div class="box" style="width: 5px;"></div>
+  <div class="box" style="width: 2px;"></div>
+  <div class="box" style="width: 8px;"></div>
+  <div class="box" style="width: 2px;"></div>
+  <div class="box" style="width: 17px;"></div>
+  <div class="box" style="width: 25px;"></div>
+  <div class="box" style="width: 16px;"></div>
+  <div class="box" style="width: 11px;"></div>
+  <div class="box" style="width: 17px;"></div>
+</section>
+```
+
+```scss
+#boxes {
+  margin: 1em 0;
+}
+
+.box {
+  background-color: black;
+  height: 20px;
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Layouts and Reflows Solution
+
+https://codepen.io/chesterheng/full/MWyBBxQ
+
+![](img/reflow-1.jpg)
+
+```javascript
+const button = document.getElementById('double-sizes');
+const boxes = Array.from(document.querySelectorAll('.box'));
+
+const doubleWidth = element => {
+  // check each width and adjust width
+  const width = element.offsetWidth;
+  element.style.width = `${width * 2}px`;
+}
+
+button.addEventListener('click', (event) => {
+  boxes.forEach(doubleWidth);
+});
+```
+
+![](img/reflow-2.jpg)
+
+```javascript
+const button = document.getElementById('double-sizes');
+const boxes = Array.from(document.querySelectorAll('.box'));
+
+button.addEventListener('click', (event) => {
+  // get all widths
+  const widths = boxes.map(element => element.offsetWidth)
+  // asjust all widths
+  boxes.forEach((element, index) => {
+    element.style.width = `${widths[index] * 2}px`;
+  })
+});
+```
+
+Conclusion: 
+- Do not get one width and adjust one width and repeat
+- Apply batch DOM manipulation
+- Get all widths first then adjust all widths reduce layout and reflow time to half
+- Layout and painting is the most expensive operations
+- Do it in batch one time and do not keep repeating it
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Layout Thrashing
+
+
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Solving for Layout Trashing
