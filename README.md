@@ -1216,6 +1216,33 @@ Profit. 💸
 **[⬆ back to top](#table-of-contents)**
 
 ### JavaScript and the Render Pipeline
+
+JavaScript gives you the ability to change all of this after the initial load, which means you might have to do all of the above again.
+
+Things JavaScript can do: An incomplete list
+
+- Change the class on an object.
+- Change the inline styles on an object. 
+- Add or remove elements from the page.
+
+![](img/render-pipeline.jpg)
+
+Okay, so let’s say you change a class or inline style on an element.
+
+The computed styles could have changed—so, we better recalculate those and rebuild the render tree.
+
+That may or may not have changed the geometry of the objects. We should probably re-layout the page.
+
+Things are different. I guess we need to paint some new images.
+
+Send those images off to the GPU to be composited.
+
+To be clear: You don’t need to do all of these things every time.
+
+And, that’s what this is about.
+
+Reminder: Steve’s golden rule of performance.
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Layouts and Reflows
