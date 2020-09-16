@@ -1628,6 +1628,46 @@ button.addEventListener('click', (event) => {
 **[⬆ back to top](#table-of-contents)**
 
 ### Frameworks and Layout Thrashing
+
+React to the rescue?
+
+```javascript
+class App extends Component {
+  state = { widths: [50, 100, 150], }
+  
+  doubleSize = ()  => {
+    const widths = this.state.widths.map(n  => n * 2);
+    this.setState({ widths });
+  };
+
+  render() {
+    const [firstWidth, secondWidth, thirdWidth] = this.state.widths;
+    return (
+      <div>
+        <button onClick={this.doubleSize}>Double Sizes</button>
+        <div style={{ width: firstWidth }}  />
+        <div style={{ width: secondWidth }}  />
+        <div style={{ width: thirdWidth }}  />
+      </div>
+    );
+  }
+}
+```
+
+Friendly fact: Production mode is important in React!
+
+![](img/react-production.jpg)
+
+Some Takeaways
+
+- Don’t mix reading layout properties and writing them— you’ll do unnecessary work.
+- If you can change the visual appearance of an element by adding a CSS class. Do that, you’ll avoid accidental trashing.
+- Storing data in memory—as opposed to the DOM—means we don’t have to check the DOM.
+- Frameworks come with a certain amount of overhead.
+- You don’t need to use a framework to take advantage of this. 
+- You can do bad things even if you use a framework.
+- You may not know you’re layout thrashing—so, measure!
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Painting
