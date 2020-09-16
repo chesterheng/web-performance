@@ -836,6 +836,21 @@ console.log(%HaveSameMap(a, b));
 **[⬆ back to top](#table-of-contents)**
 
 ### Hidden Classes
+
+Dynamic lookup: This object could be anything, so let me look at the rule book and figure this out.
+
+Sure, computers are good at looking stuff up repeatedly, but they’re also good at remembering things.
+
+It turns out there is a secret type system behind your back.
+
+![](img/hidden-object-1.jpg)
+
+You can only move forward along the chain.
+
+![](img/hidden-object-2.jpg)
+
+Okay, let’s look at this again with some real code.
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Scoping and Prototypes
