@@ -766,6 +766,73 @@ Conclusion
 **[⬆ back to top](#table-of-contents)**
 
 ### Optimizing Objects
+
+```javascript
+const a = { a: 1 };
+const b = { b: 1 };
+console.log(%HaveSameMap(a, b));
+// node --allow-natives-syntax classes.js
+// false
+
+const a = { a: 1 };
+const b = { a: 1 };
+console.log(%HaveSameMap(a, b));
+// node --allow-natives-syntax classes.js
+// true
+
+const a = { a: 1, x: 3 };
+const b = { a: 2 };
+console.log(%HaveSameMap(a, b));
+// node --allow-natives-syntax classes.js
+// false
+
+const a = { a: 1, x: 3 };
+const b = { a: 2, x: 4 };
+console.log(%HaveSameMap(a, b));
+// node --allow-natives-syntax classes.js
+// true
+
+const a = { a: 1, x: 3 };
+const b = { a: 2 };
+b.x = 4;
+console.log(%HaveSameMap(a, b));
+// node --allow-natives-syntax classes.js
+// false
+
+const a = { a: 1 };
+const b = { a: 2 };
+a.x = 3;
+b.x = 4;
+console.log(%HaveSameMap(a, b));
+// node --allow-natives-syntax classes.js
+// true
+
+const a = { a: 1 };
+const b = Object.assign({}, a);
+console.log(%HaveSameMap(a, b));
+// node --allow-natives-syntax classes.js
+// false
+
+const a = { a: 1 };
+const b = Object.assign({}, a);
+const c = Object.assign({}, a);
+console.log(%HaveSameMap(b, c));
+// node --allow-natives-syntax classes.js
+// true
+
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+const a = new Point(1, 2);
+const b = new Point(3, 4);
+console.log(%HaveSameMap(a, b));
+// node --allow-natives-syntax classes.js
+// true
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Hidden Classes
