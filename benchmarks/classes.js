@@ -1,10 +1,13 @@
-class Point {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
+const makeAPoint = () => {
+  class Point {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+    }
   }
+  return new Point(1, 2);
 }
 
-const a = new Point(1, 2);
-const b = new Point(3, 4);
+const a = makeAPoint();
+const b = makeAPoint();
 console.log(%HaveSameMap(a, b));

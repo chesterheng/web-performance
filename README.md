@@ -854,6 +854,103 @@ Okay, let’s look at this again with some real code.
 **[⬆ back to top](#table-of-contents)**
 
 ### Scoping and Prototypes
+
+```javascript
+let iterations = 100000;
+
+const test = () => {
+  const add = point => point.x + point.y;
+  class Point {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+    }
+  }
+  const point = new Point(10, 20);
+  add(point);
+};
+
+performance.mark('start');
+
+while (iterations--) {
+  test();
+}
+
+performance.mark('end');
+
+// node benchmark.js 
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 43.316833,
+//   duration: 528.249334
+// }
+```
+
+```javascript
+let iterations = 100000;
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+const test = () => {
+  const add = point => point.x + point.y;
+  const point = new Point(10, 20);
+  add(point);
+};
+
+performance.mark('start');
+
+while (iterations--) {
+  test();
+}
+
+performance.mark('end');
+
+// node benchmark.js 
+// PerformanceEntry {
+//   name: 'My Special Benchmark',
+//   entryType: 'measure',
+//   startTime: 41.143181,
+//   duration: 6.36401
+// }
+```
+
+Conclusion
+
+- Must Point class out of test function results in 83x faster in execution.
+- Why? See below code
+- If Point class is inside the function makeAPoint, we are making this class as a different prototype chain every time.
+- Each one of these output points point to a different type object when we make a fresh point function every time.
+
+```javascript
+const makeAPoint = () => {
+  class Point {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+    }
+  }
+  return new Point(1, 2);
+}
+
+const a = makeAPoint();
+const b = makeAPoint();
+console.log(%HaveSameMap(a, b));
+// node --allow-natives-syntax classes.js
+// false
+```
+Takeaways
+
+- Turbofan is able to optimize your code in substantial ways if you pass it consistent values.
+- Initialize your properties at creation. 
+- Initialize them in the same order.
+- Try not to modify them after the fact.
+- Maybe just use TypeScript or Flow so you don’t have to worry about these things?
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Function Inlining
