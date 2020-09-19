@@ -1671,6 +1671,25 @@ Some Takeaways
 **[⬆ back to top](#table-of-contents)**
 
 ### Painting
+
+Painting, Layers, the Profiling Thereof
+
+Anytime you change something other than opacity or a CSS transform... you’re going to trigger a paint.
+
+When we do a paint, the browser tells every element on the page to draw a picture of itself.
+
+It has all of this information form when we constructed the render tree and did the layout.
+
+Triggering a layout will always trigger a paint.
+
+But, if you’re just changing colors or something—then you don’t need to do a reflow. Just a repaint.
+
+![](img/repaint.jpg)
+
+Use your `Paint flashing` tools to see if you’re painting.
+
+Rule of Thumb: Paint as much as you need and as little as you can get away with.
+
 **[⬆ back to top](#table-of-contents)**
 
 ### The Compositor Thread
