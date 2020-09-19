@@ -45,6 +45,17 @@
     - [will-change Exercise](#will-change-exercise)
     - [will-change Solution](#will-change-solution)
   - [**04. Load Performance**](#04-load-performance)
+    - [Latency and Bandwidth](#latency-and-bandwidth)
+    - [Caching](#caching)
+    - [Service Workers](#service-workers)
+    - [Lazy Loading](#lazy-loading)
+    - [Lazy Loading Demonstrations](#lazy-loading-demonstrations)
+    - [Analyzing Bundle Sizes](#analyzing-bundle-sizes)
+    - [Slimming Dependencies](#slimming-dependencies)
+    - [Lazy Loading components with React-Loadable](#lazy-loading-components-with-react-loadable)
+    - [Component Lazy Loading Exercise](#component-lazy-loading-exercise)
+    - [Component Lazy Loading Solution](#component-lazy-loading-solution)
+    - [HTTP/2](#http2)
   - [**05. Tools**](#05-tools)
   - [**06. Wrapping Up**](#06-wrapping-up)
 
@@ -1896,6 +1907,38 @@ box.addEventListener('click', () => {
 **[⬆ back to top](#table-of-contents)**
 
 ## **04. Load Performance**
+
+### Latency and Bandwidth
+**[⬆ back to top](#table-of-contents)**
+
+### Caching
+**[⬆ back to top](#table-of-contents)**
+
+### Service Workers
+**[⬆ back to top](#table-of-contents)**
+
+### Lazy Loading
+**[⬆ back to top](#table-of-contents)**
+
+### Lazy Loading Demonstrations
+**[⬆ back to top](#table-of-contents)**
+
+### Analyzing Bundle Sizes
+**[⬆ back to top](#table-of-contents)**
+
+### Slimming Dependencies
+**[⬆ back to top](#table-of-contents)**
+
+### Lazy Loading components with React-Loadable
+**[⬆ back to top](#table-of-contents)**
+
+### Component Lazy Loading Exercise
+**[⬆ back to top](#table-of-contents)**
+
+### Component Lazy Loading Solution
+**[⬆ back to top](#table-of-contents)**
+
+### HTTP/2
 **[⬆ back to top](#table-of-contents)**
 
 ## **05. Tools**
