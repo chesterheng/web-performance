@@ -57,6 +57,10 @@
     - [Component Lazy Loading Solution](#component-lazy-loading-solution)
     - [HTTP/2](#http2)
   - [**05. Tools**](#05-tools)
+    - [Introduction to Using Build Tools](#introduction-to-using-build-tools)
+    - [Paying the Babal Tax](#paying-the-babal-tax)
+    - [Useful Babel Plugins](#useful-babel-plugins)
+    - [Prepack](#prepack)
   - [**06. Wrapping Up**](#06-wrapping-up)
 
 ## **01. Introduction**
@@ -2168,6 +2172,263 @@ Getting HTTP/2: The easy way.
 **[⬆ back to top](#table-of-contents)**
 
 ## **05. Tools**
+
+### Introduction to Using Build Tools
+
+When in doubt, let your tools help you.
+
+- [PurifyCSS](https://github.com/purifycss/purifycss)
+
+**[⬆ back to top](#table-of-contents)**
+
+### Paying the Babal Tax
+
+- [Babel Lab](https://github.com/stevekinney/babel-lab)
+- [Babel](https://babeljs.io/)
+
+**[⬆ back to top](#table-of-contents)**
+
+### Useful Babel Plugins
+
+Let’s file these under “maybe use.”
+
+- babel-preset-env is your friend.
+```javascript
+{
+  "presets": ["env"]
+}
+```
+
+```javascript
+{
+  "presets": [
+    ["env", {
+      "targets": {
+      "browsers": ["last 2 versions", "safari  >= 7"]
+      }
+    }]
+  ]
+}
+```
+
+- npm install @babel/plugin-transform-react-remove-prop-types
+```javascript
+import React from 'react';
+import PropTypes from 'prop-types';
+
+class Announcement extends React.Component {
+  render() {
+    return (
+      <article>
+        <h1>Important Announcement </h1>
+        <p>{this.props.content} </p>
+      </article>
+    )
+  }
+}
+
+Announcement.propTypes = {
+  content: PropTypes.string,
+}
+
+export default Announcement;
+```
+
+```javascript
+import React from 'react';
+import PropTypes from 'prop-types';
+
+class Announcement extends React.Component {
+  render() {
+    return <article>
+      <h1>Important Announcement </h1>
+      <p>{this.props.content} </p>
+    </article>;
+  }
+}
+export default Announcement;
+```
+
+```javascript
+{
+  "plugins": [
+    "syntax-jsx",
+    [ "transform-react-remove-prop-types",
+      {
+        "removeImport": true
+      }
+    ]
+  ]
+}
+```
+
+```javascript
+import React from 'react';
+
+class Announcement extends React.Component {
+  render() {
+    return <article>
+      <h1>Important Announcement </h1>
+      <p>{this.props.content} </p>
+    </article>;
+  }
+}
+export default Announcement;
+```
+
+```javascript
+{
+  "plugins": [
+    "syntax-jsx",
+    [ "transform-react-remove-prop-types",
+      {
+        "mode": "wrap"
+      }
+    ]
+  ]
+}
+```
+
+```javascript
+Announcement.propTypes = process.env.NODE_ENV !== "production" ? {
+  content: PropTypes.string
+} : {};
+```
+
+- npm install babel-plugin-transform-react-pure-class-to-function
+
+```javascript
+import React from 'react';
+
+class Announcement extends React.Component {
+  render() {
+    return <article>
+      <h1>Important Announcement </h1>
+      <p>{this.props.content} </p>
+    </article>;
+  }
+}
+export default Announcement;
+```
+
+```javascript
+import React from 'react';
+
+function Announcement(props) {
+  return <article>
+      <h1>Important Announcement </h1>
+      <p>{this.props.content} </p>
+    </article>;
+}
+
+export default Announcement;
+```
+
+- npm install @babel/plugin-transform-react-inline-elements
+
+What is this and why is it fast?
+
+This...
+
+```javascript
+<div className="important">Hello World </div>
+```
+
+...becomes...
+
+```javascript
+React.createElement(
+  "div",
+  { className: "important" },
+  "Hello World"
+);
+```
+
+...becomes... object instead of function
+
+```javascript
+{
+  $$typeof: [object Symbol] {   ... },
+  _owner: null,
+  _store: [object Object] {   ... },
+  key: null,
+  props: {
+    children: "Hello World",
+    className: "important"
+  },
+  ref: null,
+  type: "div"
+}
+```
+
+Not doing something is faster than doing it.
+
+But, if you have to do it, then you might as well only do it once.
+
+Do it at build time.
+
+- npm install @babel/plugin-transform-react-constant-elements
+
+```javascript
+import React from 'react';
+
+class Announcement extends React.Component {
+  render() {
+    return <article>
+      <h1>Important Announcement </h1>
+      <p>{this.props.content} </p>
+    </article>;
+  }
+}
+export default Announcement;
+```
+
+```javascript
+import React from 'react';
+
+var _ref = <h1>Important Announcement</h1>;
+var _ref2 = <footer>—The Management</footer>;
+
+class Announcement extends React.Component {
+  render() {
+    return <article>
+      {_ref}
+      <p>{this.props.content} </p>
+      {_ref2}
+    </article>;
+  }
+}
+
+export default Announcement;
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Prepack
+
+[Prepack](https://prepack.io/)
+
+```javascript
+for (let x = 0; x < 10; x ++) {
+  console.log(x);
+}
+```
+
+```javascript
+console.log(0);
+console.log(1);
+console.log(2);
+console.log(3);
+console.log(4);
+console.log(5);
+console.log(6);
+console.log(7);
+console.log(8);
+console.log(9);
+```
+
+Prepack is not production ready, but it’s an interesting idea and you should be thinking along these lines.
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **06. Wrapping Up**
