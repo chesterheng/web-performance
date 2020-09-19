@@ -1,7 +1,6 @@
 # Web Performance
 
 ## Table of Contents
-
 - [Web Performance](#web-performance)
   - [Table of Contents](#table-of-contents)
   - [**01. Introduction**](#01-introduction)
@@ -62,11 +61,13 @@
     - [Useful Babel Plugins](#useful-babel-plugins)
     - [Prepack](#prepack)
   - [**06. Wrapping Up**](#06-wrapping-up)
+    - [Final Thoughts](#final-thoughts)
 
 ## **01. Introduction**
 
-[Web Performance Slides](https://speakerdeck.com/stevekinney/web-performance)
-[Course Notes and Materials](https://gist.github.com/stevekinney/fe401ffb8b2b7279e56dd165b272f0c3)
+- [The Ultimate Guide to Web Performance](https://dev.to/ender_minyard/the-ultimate-guide-to-web-performance-ci4)
+- [Web Performance Slides](https://speakerdeck.com/stevekinney/web-performance)
+- [Course Notes and Materials](https://gist.github.com/stevekinney/fe401ffb8b2b7279e56dd165b272f0c3)
 
 ### Thinking About Performance
 
@@ -2432,4 +2433,36 @@ Prepack is not production ready, but it’s an interesting idea and you should b
 **[⬆ back to top](#table-of-contents)**
 
 ## **06. Wrapping Up**
+
+### Final Thoughts
+
+Free tip (repeated): Make sure you’re running in "Production Mode".
+
+What is production mode?
+
+- PropTypes? Nah.
+- "Helpful" warnings? No, thanks. 
+- Performance metrics? Nope.
+- Not having this stuff relieves React of a bunch of work and allows it to run fast.
+
+Some super important things we didn’t talk about today.
+
+- Server-side rendering.
+- Image performance.
+- Loading web fonts. 
+- Progressive web applications.
+
+Avoid Render Blocking
+
+Render blocking is anything that keeps the browser from painting to the screen—or, umm, rendering.
+
+Quick Tip: Make sure your CSS <link>s are in the <head>.
+
+Inlining has trade offs.
+
+- Sure, it saves you a network request. 
+- But, you can’t cache the styles.
+- So, while it might work better for single-page applications, you wouldn’t want to include it every HTML page on multi- page applications.
+- With HTTP/2, you can actually just avoid this problem all together.
+
 **[⬆ back to top](#table-of-contents)**
