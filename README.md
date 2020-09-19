@@ -1947,6 +1947,75 @@ Answer: Everywhere.
 **[⬆ back to top](#table-of-contents)**
 
 ### Caching
+
+HTTP/1.1 added the Cache- Control response header.
+
+Caching only affects the "safe" HTTP methods.
+
+- GET
+- OPTIONS
+- HEAD
+
+It doesn’t support ... because how would it?
+
+- PUT
+- POST
+- DELETE
+- PATCH
+
+Cache-Control headers
+- no-store
+- no-cache
+- max-age
+- s-maxage
+- immutable
+
+Three over-simplified possibilities
+
+- Cache Missing: There is no local copy in the cache.
+- Stale: Do a Conditional GET. The browser has a copy but it's
+old and no longer valid. Go get a new version.
+- Valid: We have a thing in cache and its good—so, don't even bother talking to the server.
+
+```javascript
+const express = require('express');
+const serveStatic = require('serve-static');
+
+const app = express();
+app.use(serveStatic( __dirname, {
+  setHeaders(response, path) {
+  response.setHeader('Cache-Control', 'no-store');
+ }
+}));
+
+const port = process.env.port  || 3000;
+app.listen(post, () => console.log(`⚓ Ahoy! The server is listening on port ${port}!`));
+```
+
+- no-store: The browser gets a new version every time.
+- no-cache: This means you can store a copy, but you can't use it without checking with the server.
+- max-age: Tell the browser not to bother if whatever asset it has is less than a certain number of seconds old.
+
+Caching is great unless you mess it up.
+
+We can say "Yo, cache this for a long time!"
+But, what if we ship some bunk assets? Oh no.
+
+How the will the user know to do a hard refresh to get the new ones?
+
+Another solution: Content-Addressable Storage
+- `main.567eea7aa72b3ee48649.js`
+
+Caching for CDNs
+
+CDNs respect the max-age header just like browsers. But this opens up a new can of worms.
+- We want CSS and JavaScripts to be cached by the browser.
+- We would like the CDN to cache the HTML that it serves up. But we don't want the browser to (because that ends us up in our earlier problem).
+
+s-maxage is for CDNs only. Tell the CDN to keep it forever. But don't tell the browser to do it.
+
+To reiterate: We have no way to reach into all of our customers browsers and tell them to purge their caches of our assets, but we can tell the CDN to.
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Service Workers
