@@ -1716,18 +1716,183 @@ This is cool, because it frees up the main thread to do all of the work it’s r
 **[⬆ back to top](#table-of-contents)**
 
 ### Managing Layers
+
+Again: Painting is super expensive and you should avoid it whenever possible.
+
+But, Steve—how do I avoid painting? Isn’t that just a fact of life when it comes to getting pixels on the screen? —Your inner monologue
+
+““Let the Compositor Thread handle this stuff!” — Me, in response
+
+Things the compositor thread is really good at:
+
+- Drawing the same bitmaps over and over in different places.
+- Scaling and rotating bitmaps. 
+- Making bitmaps transparent. 
+- Applying filters.
+- Mining Bitcoin.
+
+If you want to be fast, then offload whatever you can to the less-busy thread.
+
+![](img/layers.jpg)
+
+Disclaimer: Compositing is kind of a hack.
+
+One does not simply use layers
+
+Layers are an optimization that the browser does for you under the hood.
+
+What kind of stuff gets its own layer?
+
+- The root object of the page.
+- Objects that have specific CSS positions. 
+- Objects with CSS transforms.
+- Objects that have overflow.
+- (Other stuff...)
+
+Objects that don’t fall under one of these reasons will be on the same element as the last one that did.
+
 **[⬆ back to top](#table-of-contents)**
 
 ### will-change
+
+(Hint: The root object is always its own layer.)
+
+You can give the browser hints using the will-change property.
+
+```javascript
+.sidebar {
+  will-change: transform;
+}
+```
+
+https://caniuse.com/?search=will-change
+
+```javascript
+.sidebar {
+  transform: translateZ(0);
+}
+
+.sidebar {
+  will-change: transform;
+}
+```
+
+Play Time
+
+```javascript
+header {
+  will-change: transform;
+}
+
+footer {
+  will-change: transform;
+}
+```
+
+Using layers is a trade off.
+
+Managing layers takes a certain amount of work on the browser’s behalf.
+
+Each layer needs to be kept in the shared memory between the main and composite threads.
+
+```javascript
+// This is a terrible idea.
+* {
+  will-change: transform;
+}
+```
+
+The browser is already trying to help you out under the hood.
+
+Pro Tip: will-change is for things that will change. (Not things that are changing.)
+
+Promoting an object to its own layer takes a non-zero amount of time.
+
+```javascript
+// Not really useful
+.sidebar.is-opening {
+  will-change: transform;
+  transition: transform 0.5s;
+  transform: translate(400px);
+}
+```
+
+```javascript
+// More useful. promote to layer before action is taken
+.sidebar {
+  will-change: transform;
+  transition: transform 0.5s;
+}
+
+.sidebar:hover {
+  will-change: transform;
+}
+
+.sidebar.open {
+  transform: translate(400px);
+}
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Applying will-change with JavaScript
+
+will-change is tricky because while it’s a CSS property, you’ll typically access it using JavaScript.
+
+```javascript
+element.addEventListener('mouseenter', ()  => {
+  element.style.willChange = 'transform';
+});
+```
+
+If it’s something that the user is interacting with constantly, add it to the CSS. Otherwise, do it with JavaScript.
+
+Clean up after yourself. Remove will- change when it’s not going to change anymore.
+
+```javascript
+element.addEventListener('mouseenter', ()  => {
+  element.style.willChange = 'transform';
+});
+
+element.addEventListener('animationEnd', ()  => {
+  element.style.willChange = 'auto';
+});
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### will-change Exercise
+
+- Let’s look at the “Paint Storming” example. 
+- Don’t be surprised if you find a paint storm.
+- Can you swap out that jQuery animation for a CSS transition?
+- Can you put the will-change on before the transition? 
+- Can you remove it after?
+
 **[⬆ back to top](#table-of-contents)**
 
 ### will-change Solution
+
+```javascript
+const box = document.querySelector('.box');
+
+box.addEventListener('mouseenter', () => {
+  box.style.willChange = 'transform';
+});
+
+box.addEventListener('mouseleave', () => {
+  box.style.willChange = 'auto';
+});
+
+box.addEventListener('transitioned', () => {
+  box.style.willChange = 'auto';
+});
+
+box.addEventListener('click', () => {
+  box.classList.toggle('move');
+});
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **04. Load Performance**
