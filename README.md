@@ -2045,6 +2045,8 @@ Refer to Noted React App
 
 [Analyzing the Bundle Size](https://create-react-app.dev/docs/analyzing-the-bundle-size/)
 
+Goal: Each bundle size < 300kbytes
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Slimming Dependencies
@@ -2084,12 +2086,85 @@ export default LoadableEditor;
 **[⬆ back to top](#table-of-contents)**
 
 ### Component Lazy Loading Exercise
+
+- So, I implemented lazy-loading for the Codemirror editor.
+- But, it looks like the Markdown component is taking up quite a bit of space as well.
+- Could you lazy-load that too for me?
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Component Lazy Loading Solution
+
+```javascript
+import React from 'react';
+import Loadable from 'react-loadable';
+import Loading from './Loading';
+
+const LoadableNoteView = () => Loadable({
+  loader: () => import('./NoteView'),
+  loading: Loading
+});
+
+export default LoadableNoteView;
+```
+
+```javascript
+import React from 'react';
+import { connect } from 'react-redux';
+
+import LoadableNoteView from '../components/LoadableNoteView';
+
+const mapStateToProps = (state, ownProps) => {
+  const { id } = ownProps.match.params;
+  const note = { id, ...state.notes[id] };
+  return { ...ownProps, ...note };
+};
+
+export default connect(mapStateToProps)(LoadableNoteView);
+```
+
+Takeaways
+
+- Some libraries have code you don’t need. See if you can get that out of your build.
+- Get the code you need now now. 
+- Get the code you need later later. 
+- Your tools can help you do this.
+
 **[⬆ back to top](#table-of-contents)**
 
 ### HTTP/2
+
+HTTP/2: What even are you?
+
+- An upgrade to the HTTP transport layer.
+- Fully multiplexed—send multiple requests in parallel.
+- Allows servers to proactively push responses into client caches.
+
+HTTP/1.1: What’s wrong with you?
+
+- Websites are growing: more images, more JavaScript
+- Sure, bandwidth has gotten a lot better, but roundtrip time hasn’t
+- It takes just as long to ping a server now as it did 20 years ago. 
+- That’s right: one file at a time per connection
+- No big deal. It’s not like we are building websites that request 100 files to something.
+
+![](img/pipelining.jpg)
+
+The weird thing is that once you have this in place some “best practices” become not-so-good.
+
+Is concatenating all of your JS and CSS into large, single files still useful?
+
+What about inlining images as data URLs in our CSS?
+
+Measure, measure, measure.
+
+Getting HTTP/2: The easy way.
+
+- [netlify](https://www.netlify.com/)
+- [cloudflare](https://www.cloudflare.com/)
+- [cloudfront](https://aws.amazon.com/cloudfront/)
+- [vercel](https://vercel.com/)
+
 **[⬆ back to top](#table-of-contents)**
 
 ## **05. Tools**

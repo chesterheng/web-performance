@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import NoteView from '../components/NoteView';
+import LoadableNoteView from '../components/LoadableNoteView';
 
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps.match.params;
@@ -9,4 +9,4 @@ const mapStateToProps = (state, ownProps) => {
   return { ...ownProps, ...note };
 };
 
-export default connect(mapStateToProps)(NoteView);
+export default connect(mapStateToProps)(LoadableNoteView);
