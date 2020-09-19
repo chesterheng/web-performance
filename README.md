@@ -2036,15 +2036,51 @@ Doing stuff later is a way to not do stuff now. So, it’s faster.
 **[⬆ back to top](#table-of-contents)**
 
 ### Lazy Loading Demonstrations
+
+Refer to Noted React App
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Analyzing Bundle Sizes
+
+[Analyzing the Bundle Size](https://create-react-app.dev/docs/analyzing-the-bundle-size/)
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Slimming Dependencies
+
+```javascript
+import _ from 'lodash';
+import transform from 'lodash/transform';
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Lazy Loading components with React-Loadable
+
+[react-loadable](https://github.com/jamiebuilds/react-loadable)
+
+```javascript
+import React from 'react';
+
+const Loading = () => <p>Loading...</p>;
+
+export default Loading;
+```
+
+```javascript
+import React from 'react';
+import Loadable from 'react-loadable';
+import Loading from './Loading';
+
+const LoadableEditor = () => Loadable({
+  loader: () => import('./Editor'),
+  loading: Loading
+});
+
+export default LoadableEditor;
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Component Lazy Loading Exercise
