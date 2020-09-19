@@ -1909,6 +1909,41 @@ box.addEventListener('click', () => {
 ## **04. Load Performance**
 
 ### Latency and Bandwidth
+
+A Journey of Self-Discovery
+
+“Networks, CPUs, and disks all hate you. On the client, you pay for what you send in ways you can't easily see. —Alex Russell
+
+Bandwidth vs. Latency
+
+- Bandwidth is how much stuff you can fit through the tube per second.
+- Latency is how long it takes to get to the other end of the tube.
+
+[Front End Center — Why Latency Matters: Foundations of Web Performance](https://www.youtube.com/watch?v=ak4EZQB4Ylg)
+
+TCP focuses on reliability
+
+- We keep checking in with the server to make sure that everything is going well.
+- Packets are delivered in the correct order. 
+- Packets are delivered without errors. 
+- Client acknowledges each packet. 
+- Unreliable connections are handled well. 
+- Will not overload the network.
+
+TCP starts by sending a small amount of data and then starts sending more and more as we find out that things are being successful.
+
+Fun fact: This is why things feel so much worse on a slow Internet connection.
+
+Pro tip: The initial window size is 14kb. So, if you can get files under 14kb, then it means you can get everything through in the first window. Very cool.
+
+[Lab](http://www.cloudping.info/)
+
+Hmm... So, where is the optimal place to put our assets?
+
+Answer: Everywhere.
+
+[Amazon CloudFront Infrastructure](https://aws.amazon.com/cloudfront/features/)
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Caching
