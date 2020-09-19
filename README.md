@@ -1693,6 +1693,26 @@ Rule of Thumb: Paint as much as you need and as little as you can get away with.
 **[⬆ back to top](#table-of-contents)**
 
 ### The Compositor Thread
+
+Browser threads 
+
+- The UI thread: Chrome itself. The tab bar, etc.
+- The Renderer thread: We usually call this the main thread. This is where all JavaScript, parsing HTML and CSS, style calculation, layout, and painting happens. There are one of these per tab. One tab has one on thread.
+- The Compositor Thread: Draws bitmaps to the screen via the GPU
+
+The Compositor Thread
+
+- When we paint, we create bitmaps for the elements, put them onto layers, and prepare shaders for animations if necessary.
+- After painting, the bitmaps are shared with a thread on the GPU to do the actual compositing.
+- The GPU process works with OpenGL to make magic happen on your screen.
+
+The Main Thread is CPU-intensive.
+The Compositor Thread is GPU-intensive.
+
+It can go off and work on some super hard JavaScript computation and the animations will still chug along.
+
+This is cool, because it frees up the main thread to do all of the work it’s responsible for.
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Managing Layers
