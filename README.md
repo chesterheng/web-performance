@@ -2019,9 +2019,20 @@ To reiterate: We have no way to reach into all of our customers browsers and tel
 **[⬆ back to top](#table-of-contents)**
 
 ### Service Workers
+
+- client -> server
+- client -> service worker -> server
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Lazy Loading
+
+And now: A review of Steve’s golden rules for performance.
+
+Not doing stuff is faster than doing stuff.
+
+Doing stuff later is a way to not do stuff now. So, it’s faster.
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Lazy Loading Demonstrations
